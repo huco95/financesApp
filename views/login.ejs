@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/custom.min.css">
+
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="My Finances">
+  <meta name="theme-color" content="#d8d8d8" />
+  <link rel="apple-touch-icon" href="/images/app/icon-152x152.png">
+
+  <link rel="shortcut icon" href="images/app/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="images/app/favicon.ico" type="image/x-icon">
+
+  <meta name="description" content="A finances manager app">
+  <title>My finances</title>
+</head>
+<body class="d-flex justify-content-center align-items-center">
+
+  <div class="login-container mb-11">
+
+    <div>
+      <div class="text-center" >
+        <img src="images/icons/login.svg" style="height: 200px;" alt="my finances" />
+        <h1>Iniciar sesion</h1>
+      </div>
+    </div>
+
+      <% if (error) { %>
+        <div class="alert alert-danger d-flex" role="alert">
+          <img src="images/icons/x-octagon.svg" class="mr-1" />
+          <span>Usuario y/o contraseña incorrectos</span>
+        </div>
+      <% } %>
+
+      <form action="/login" method="post" class="border shadow-sm p-3 mb-3 bg-white rounded" >
+          <div class="mb-3" >
+              <label class="form-label" for="username">Usuario</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <img src="images/icons/user.svg" alt="" width="24" height="24" >
+                </span>
+                <input class="form-control" type="text" id="username" name="username" autocomplete="username"/>
+              </div>
+              
+          </div>
+          <div class="mb-3" >
+              <label class="form-label" for="password">Contraseña</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <img src="images/icons/key.svg" alt="" width="24" height="24" >
+                </span>
+                <input class="form-control" type="password" id="password" name="password" autocomplete="current-password"/>
+              </div>
+          </div>
+          <div class="text-center">
+            <button class="btn btn-primary" type="submit">Acceder</button>
+          </div>
+      </form>
+
+      <div class="border shadow-sm p-3 bg-white rounded">
+        <span class="px-2 mt-1"><a href="/signup">Registrarme</a></span>
+        <span>|</span>
+        <span class="px-2 mt-1"><a href="/forgotPassword">Recuperar contraseña</a></span>
+      </div>
+
+  </div>
+
+  <script src="/js/login.bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<% if (movesByDate.length > 0) { %> 
+<% movesByDate.forEach((moveByDate) => { %>
+    <div id="movesGroup-<%= format(new Date(moveByDate._id.date), "ddMMyyyy", {locale: locale}) %>" data-day="<%= format(new Date(moveByDate._id.date), "dd", {locale: locale}) %>">
+        <div class="moveDate font-weight-bold p-2">
+            <%= format(new Date(moveByDate._id.date), "dd MMMM yyyy", {locale: locale}) %>
+        </div>
+        <div class="bg-white px-2 py-1">
+            <% moveByDate.moves.forEach((move) => { %>
+                <%- include('move', {move: move, isNew: false}); %>
+            <% }); %> 
+        </div>
+    </div>
+<% }); %>
+<% } else { %>
+    <%- include("noMoves"); %> 
+<% } %> 

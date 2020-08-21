@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/custom.min.css">
+
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="My Finances">
+  <meta name="theme-color" content="#d8d8d8" />
+  <link rel="apple-touch-icon" href="/images/app/icon-152x152.png">
+
+  <link rel="shortcut icon" href="images/app/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="images/app/favicon.ico" type="image/x-icon">
+
+  <meta name="description" content="A finances manager app">
+  <title>My finances</title>
+</head>
+<body>
+  <%- include('header') %>
+
+  <div class="container-sm mb-10">
+
+    <div id="totalsDiv" class="mt-2"></div>
+    
+    <%- include('stats/stats') %>
+
+    <h1 class="m-2 mb-0">Movimientos</h1>
+    <div id="movesDiv" class="shadow-sm bg-white m-2"></div>
+    
+    <div class="icon-add">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#moveModal" data-action="add" aria-label="añadir movimiento">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+          <line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modals -->
+    <%- include('modals/monthSelector') %>
+    <%- include('modals/addMove') %>
+  </div>
+
+  <script src="/js/vendor~home.bundle.js"></script>
+  <script src="/js/home.bundle.js"></script>
+</body>
+</html>

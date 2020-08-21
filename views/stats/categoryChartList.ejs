@@ -1,0 +1,21 @@
+<div class="bg-white">
+    <% if (categories !== undefined && categories.length > 0) { %> 
+        <% categories.forEach((category, index) => { %>
+            <div <% if (index != categories.length - 1) { %> class="mb-3" <% } %> >
+                <div class="d-flex align-items-center mb-2">
+                    <span class="d-flex align-items-center justify-content-center rounded-circle p-1" 
+                    style="height: 35px; width: 35px;background-color: <%= category.color %>;">
+                        <img src="images/icons/categories/<%= category.icon %>" alt="" width="24" height="24" title="<%= category.name %>">
+                    </span>
+                    <span class="font-weight-bold ml-2"><%= category.name %></span>
+                </div>
+                <div class="progress" style="height: 30px;">
+                    <div class="progress-bar" style="width: <%= category.realtivePercent %>%; background-color: <%= category.color %>;"
+                    role="progressbar" aria-valuenow="<%= category.realtivePercent %>" aria-valuemin="0" aria-valuemax="100" >
+                        <span class="font-weight-bold"><%= category.amount %> €</span>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    <% } %> 
+</div>

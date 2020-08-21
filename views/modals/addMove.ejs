@@ -1,0 +1,63 @@
+
+<div class="modal fade" id="moveModal" tabindex="-1" aria-labelledby="moveModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form id="postMovement" method="post" action="/addMove" class="needs-validation" novalidate>
+            <div class="modal-body">
+            <div class="mb-3 btn-group full-width">
+                <input type="radio" class="btn-check" name="type" id="income" value="income" autocomplete="off" checked>
+                <label class="btn btn-outline-success" for="income">Ingreso</label>
+                <input type="radio" class="btn-check" name="type" id="expense" value="expense" autocomplete="off">
+                <label class="btn btn-outline-danger" for="expense">Gasto</label>
+            </div>
+            <div class="mb-3">
+                <label for="amountInput" class="form-label">Cantidad</label>
+                <input type="number" class="form-control" id="amountInput" name="amount" required >
+                <div class="invalid-feedback">
+                Introduce una cantidad valida.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="categoryInput" class="form-label">Categoria</label>
+                <select class="form-select" id="categoryInput" name="category" required aria-label="Category select">
+                <option selected disabled value="">-- Categoria --</option>
+                </select>
+                <div class="invalid-feedback">
+                Selecciona una categoria valida.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="descriptionInput" class="form-label">Descripción</label>
+                <input type="text" class="form-control" id="descriptionInput" name="description" >
+            </div>
+            <div class="mb-3">
+                <label for="dateInput" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="dateInput" name="date" required >
+                <div class="invalid-feedback">
+                Introduce una fecha valida.
+                </div>
+            </div>
+            <div class="mb-3" hidden>
+                <label for="idInput" class="form-label">Id</label>
+                <input type="text" class="form-control" id="idInput" name="moveId" >
+            </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+            <div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+            <div>
+                <button id="deleteMoveBtn" type="button" class="btn btn-danger">Eliminar</button>
+                <button class="btn btn-primary" type="submit">Guardar</button>
+            </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
