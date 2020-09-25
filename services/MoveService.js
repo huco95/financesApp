@@ -84,9 +84,9 @@ function findAmountSumBetweenDatesAndTypeGroupedByCategory(user, type, initDate,
  * @param {*} user 
  * @param {*} type 
  */
-function findAmountSumByTypeGroupedByMonth(user, type) {
+function findAmountSumBetweenDatesAndTypeGroupedByMonth(user, type, initDate, endDate) {
     return Move.aggregate()
-               .match({ user: user._id, type: type })
+               .match({ user: user._id, type: type, date: { $gt: initDate, $lt: endDate } })
                .group({ _id: { month: {$month: "$date"} }, total: {$sum: "$amount"} }).exec();
 }
 
@@ -144,8 +144,8 @@ async function update(move) {
  * 
  * @param {*} id 
  */
-function deleteById(id) {
-    return Move.deleteOne({_id: id}).exec();
+function deleteById(id, user) {
+    return Move.deleteOne({ _id: id, user: user }).exec();
 }
 
 module.exports = 
@@ -158,5 +158,5 @@ module.exports =
         findBetweenDatesGroupedByDate, 
         findAmountSumBetweenDatesGroupedByType, 
         findAmountSumBetweenDatesAndTypeGroupedByCategory,
-        findAmountSumByTypeGroupedByMonth
+        findAmountSumBetweenDatesAndTypeGroupedByMonth
     };

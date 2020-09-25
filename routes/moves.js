@@ -93,9 +93,10 @@ router.post('/updateMove', auth.isAuthenticated, upload.none(), async (req, res)
   
 router.post('/deleteMove', auth.isAuthenticated, (req, res) => {
     let id = req.query.id;
+    let user = req.user;
 
     try {
-        MoveService.deleteById(id);
+        MoveService.deleteById(id, user);
         res.sendStatus(200);
     } catch (error) {
         console.error(error);

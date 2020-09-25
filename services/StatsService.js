@@ -64,9 +64,9 @@ async function getExpensesCategoryChartPie(user, initDate, endDate) {
  * 
  * @param {*} user 
  */
-async function getMonthlyBalanceChart(user) {
-    const incomesAggregation = await MoveService.findAmountSumByTypeGroupedByMonth(user, "income");
-    const expensesAggregation = await MoveService.findAmountSumByTypeGroupedByMonth(user, "expense");
+async function getMonthlyBalanceChart(user, initDate, endDate) {
+    const incomesAggregation = await MoveService.findAmountSumBetweenDatesAndTypeGroupedByMonth(user, "income", initDate, endDate);
+    const expensesAggregation = await MoveService.findAmountSumBetweenDatesAndTypeGroupedByMonth(user, "expense", initDate, endDate);
 
     var incomes = Array(12).fill(0);
     var expenses = Array(12).fill(0);
@@ -85,10 +85,10 @@ async function getMonthlyBalanceChart(user) {
             type: 'line',
             label: "Balance",
             data: savings,
-            borderColor: "#13889b",
-            backgroundColor: "#13889b",
-            pointBackgroundColor: "#13889b",
-            pointBorderColor: "#13889b",
+            borderColor: "#5a67d8",
+            backgroundColor: "#5a67d8",
+            pointBackgroundColor: "#5a67d8",
+            pointBorderColor: "#5a67d8",
             borderWidth: 2,
             fill: false
         },
@@ -96,13 +96,13 @@ async function getMonthlyBalanceChart(user) {
             type: 'bar',
             label: "Ingresos",
             data: incomes,
-            backgroundColor: "#4ab563"
+            backgroundColor: "#48bb78"
         },
         {
             type: 'bar',
             label: "Gastos",
             data: expenses,
-            backgroundColor: "#e25563"
+            backgroundColor: "#f56565"
         }],
         labels: Array.from(labels)
     };

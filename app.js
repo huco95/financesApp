@@ -2,6 +2,13 @@ const express = require("express");
 const app = express();
 const PORT = 3000;
 
+// CORS
+const cors = require("cors");
+const corsOptions = {
+    origin: [ "http://localhost:4200", "http://192.168.1.109:4200" ]
+};
+app.use(cors(corsOptions));
+
 // Gzip compression
 const compression = require('compression');
 app.use(compression());
@@ -12,8 +19,10 @@ app.use(express.static('public'));
 
 //----------------- AUTH -----------------
 require("./services/auth/local")(app);
+require("./services/auth/jwt")(app);
 
 //----------------- VIEWS -----------------
+app.use(express.json());
 app.use(require('./routes'));
 
 // Configure mongoose
