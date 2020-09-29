@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 // CORS
 const cors = require("cors");
 const corsOptions = {
-    origin: [ "http://localhost:4200", "http://192.168.1.109:4200", "https://finances-app-node.herokuapp.com" ]
+    origin: [ "http://localhost:4200", "http://192.168.1.109:4200", "https://huco95.github.io" ]
 };
 app.use(cors(corsOptions));
 
