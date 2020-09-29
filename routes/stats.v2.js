@@ -27,7 +27,7 @@ router.get('/stats/chart/annual', auth.isAuthenticated, async (req, res) => {
     let endDate = new Date(parseInt(req.query.endDate));
 
     try {
-        const result = await StatsService.getMonthlyBalanceChart(user, initDate, endDate);
+        const result = await StatsService.getMonthlyBalanceChartv2(user, initDate, endDate);
         res.json(result);
 
     } catch (error) {
@@ -42,7 +42,7 @@ router.get('/stats/chart/categories', auth.isAuthenticated, async (req, res) => 
     let endDate = new Date(parseInt(req.query.endDate));
 
     try {
-        const result = await StatsService.getExpensesCategoryChartPie(user, initDate, endDate);
+        const result = await StatsService.getExpensesCategoryChartPiev2(user, initDate, endDate);
         res.json(result);
         
     } catch (error) {

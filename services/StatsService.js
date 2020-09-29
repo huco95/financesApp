@@ -60,6 +60,17 @@ async function getExpensesCategoryChartPie(user, initDate, endDate) {
     return {data: data, legends: legends};
 }
 
+
+/**
+ * 
+ * @param {*} user 
+ * @param {*} initDate 
+ * @param {*} endDate 
+ */
+async function getExpensesCategoryChartPiev2(user, initDate, endDate) {
+    return await MoveService.findAmountSumBetweenDatesAndTypeGroupedByCategory(user, "expense", initDate, endDate);
+}
+
 /**
  * 
  * @param {*} user 
@@ -118,9 +129,26 @@ async function getMonthlyBalanceChart(user, initDate, endDate) {
     return {data: data, legends: legends};
 }
 
+async function getMonthlyBalanceChartv2(user, initDate, endDate) {
+    const incomesAggregation = await MoveService.findAmountSumBetweenDatesAndTypeGroupedByMonth(user, "income", initDate, endDate);
+    const expensesAggregation = await MoveService.findAmountSumBetweenDatesAndTypeGroupedByMonth(user, "expense", initDate, endDate);
+
+    var incomes = Array(12).fill(0);
+    var expenses = Array(12).fill(0);
+    var savings = Array(12).fill(0);
+
+    incomesAggregation.forEach((income) => { incomes[income._id.month-1] = income.total; });
+    expensesAggregation.forEach((expense) => { expenses[expense._id.month-1] = -expense.total; });
+    for (var i = 0; i < incomes.length; i++) { savings[i] = incomes[i] + expenses[i]; }
+
+    return { incomes: incomes, expenses: expenses, balances: savings };
+}
+
 module.exports =
     { 
         getBalance,
         getExpensesCategoryChartPie,
-        getMonthlyBalanceChart
+        getExpensesCategoryChartPiev2,
+        getMonthlyBalanceChart,
+        getMonthlyBalanceChartv2
     };
