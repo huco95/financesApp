@@ -1,4 +1,5 @@
 const MoveService = require("../services/MoveService");
+const utils = require("./utils")
 // Date-fns
 const es = require("date-fns/locale/es")
 
@@ -14,13 +15,13 @@ async function getBalance(user, initDate, endDate) {
 
     results.forEach((result) => {
         if (result._id.type == "income") {
-            balance.incomes = result.total;
+            balance.incomes = utils.round(result.total);
         } else if (result._id.type == "expense") {
-            balance.expenses = result.total;
+            balance.expenses = utils.round(result.total);
         }
     });
 
-    balance.balance = balance.incomes-balance.expenses;
+    balance.balance = utils.round(balance.incomes-balance.expenses);
 
     return balance;
 }
@@ -137,9 +138,9 @@ async function getMonthlyBalanceChartv2(user, initDate, endDate) {
     var expenses = Array(12).fill(0);
     var savings = Array(12).fill(0);
 
-    incomesAggregation.forEach((income) => { incomes[income._id.month-1] = income.total; });
-    expensesAggregation.forEach((expense) => { expenses[expense._id.month-1] = -expense.total; });
-    for (var i = 0; i < incomes.length; i++) { savings[i] = incomes[i] + expenses[i]; }
+    incomesAggregation.forEach((income) => { incomes[income._id.month-1] = utils.round(income.total); });
+    expensesAggregation.forEach((expense) => { expenses[expense._id.month-1] = utils.round(-expense.total); });
+    for (var i = 0; i < incomes.length; i++) { savings[i] = utils.round(incomes[i] + expenses[i]); }
 
     return { incomes: incomes, expenses: expenses, balances: savings };
 }
