@@ -4,6 +4,9 @@ const router = express.Router();
 // Passport.js
 const passport = require('passport');
 const auth = require("../services/auth/utils");
+// MonogDB
+const UserService = require("../services/UserService");
+const User = require("../schemas/UserSchema");
 
 //-------------------- Login --------------------
 router.get('/login', (req, res) => {
@@ -13,6 +16,23 @@ router.get('/login', (req, res) => {
 router.post('/login', passport.authenticate('login_local', {
     successRedirect: '/',
     failureRedirect: '/login',
+    failureFlash: true
+}));
+
+//-------------------- Logout --------------------
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+//-------------------- Signup --------------------
+router.get('/signup/local', (req, res) => {
+    res.render('signup', { message: req.flash('message') });
+});
+
+router.post('/signup/local', passport.authenticate('signup_local', {
+    successRedirect: '/',
+    failureRedirect: '/signup/local',
     failureFlash: true
 }));
 
@@ -26,21 +46,19 @@ router.get('/login/jwt/validate', passport.authenticate('jwt', { session: false 
     res.json('');
 });
 
-//-------------------- Logout --------------------
-router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
-});
-
 //-------------------- Signup --------------------
-router.get('/signup', (req, res) => {
-    res.render('signup', { message: req.flash('message') });
-});
+router.post('/signup', async (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
 
-router.post('/signup', passport.authenticate('signup_local', {
-    successRedirect: '/',
-    failureRedirect: '/signup',
-    failureFlash: true
-}));
+    try {
+        let result = await UserService.createUser(username, password);
+        res.json(result);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500);
+    }
+});
 
 module.exports = router;

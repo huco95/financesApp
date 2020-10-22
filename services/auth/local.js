@@ -3,8 +3,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash'); // Required by passportjs
 const session = require("express-session"); // Required by passportjs
 const bodyParser = require("body-parser"); // Required by passportjs
-const bcrypt = require('bcrypt');
 const User = require("../../schemas/UserSchema");
+const utils = require("../../services/auth/utils");
 
 module.exports = (app) => {
   
@@ -13,16 +13,6 @@ module.exports = (app) => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(passport.initialize());
   app.use(passport.session());
-
-  // Validate password
-  const isValidPassword = (user, password) => {
-    return bcrypt.compareSync(password, user.password);
-  }
-
-  // Hash password
-  const createHash = (password) => {
-    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-  }
 
   passport.serializeUser((user, done) => {
     done(null, user._id);
@@ -49,18 +39,19 @@ module.exports = (app) => {
         if (user) {
             console.log('User already exists');
             return done(null, false, req.flash('message','User Already Exists'));
+
         } else {
           var newUser = new User();
           newUser.username = username;
-          newUser.password = createHash(password);
+          newUser.password = utils.createHash(password);
 
           // save the user
           newUser.save((err) => {
-            if (err){
-                console.log('Error in Saving user: '+err);  
+            if (err) {
+                console.log('Error saving user: '+err);  
                 throw err;  
             }
-            console.log('User Registration succesful');    
+            console.log('User registration succesful');    
             return done(null, newUser);
           });
         }
@@ -90,7 +81,7 @@ module.exports = (app) => {
           return done(null, false,  req.flash('error', true));                 
         }
 
-        if (!isValidPassword(user, password)){
+        if (!utils.isValidPassword(user, password)){
           console.log('Invalid Password');
           return done(null, false, req.flash('error', true));
         }

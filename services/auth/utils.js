@@ -1,6 +1,7 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/auth.config');
+const bcrypt = require('bcrypt');
 
 // Check if user is authenticated, call next() if authenticated
 const isAuthenticated = (req, res, next) => {
@@ -26,4 +27,14 @@ const generateToken = (user) => {
     return jwt.sign(payload, config.secret, options);
 }
 
-module.exports = { isAuthenticated, generateToken };
+// Validate password
+const isValidPassword = (user, password) => {
+    return bcrypt.compareSync(password, user.password);
+}
+
+// Hash password
+const createHash = (password) => {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+}
+
+module.exports = { isAuthenticated, generateToken, isValidPassword, createHash };
