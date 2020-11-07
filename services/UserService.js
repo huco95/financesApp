@@ -21,7 +21,26 @@ async function createUser(username, password) {
     }
 }
 
+async function validateUser(username, password) {
+    let user = await User.findOne({ username: username });
+
+    if (!user) {
+        console.log("User  " + username + " does not exist.");
+        return { success: false, message: 'unknown user' };
+    }
+
+    if (!auth.isValidPassword(user, password)){
+        console.log("Invalid password.");
+        return { success: false, message: 'invalid pass' };
+    }
+
+    const token = auth.generateToken(user);
+
+    return { success: true, message: 'OK' , token: token };
+}
+
 module.exports =
     { 
-        createUser
+        createUser,
+        validateUser
     };

@@ -3,10 +3,8 @@ const express = require("express");
 const router = express.Router();
 // Passport.js
 const passport = require('passport');
-const auth = require("../services/auth/utils");
 // MonogDB
 const UserService = require("../services/UserService");
-const User = require("../schemas/UserSchema");
 
 //-------------------- Login --------------------
 router.get('/login', (req, res) => {
@@ -37,9 +35,18 @@ router.post('/signup/local', passport.authenticate('signup_local', {
 }));
 
 //-------------------- Login JWT --------------------
-router.post('/login/jwt', passport.authenticate('login_local', { session: false }), (req, res) => {
-    const token = auth.generateToken(req.user);
-    res.json(token);
+router.post('/login/jwt', async (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+
+    try {
+        let result = await UserService.validateUser(username, password);
+        res.json(result);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500);
+    }
 });
 
 router.get('/login/jwt/validate', passport.authenticate('jwt', { session: false }), (req, res) => {
